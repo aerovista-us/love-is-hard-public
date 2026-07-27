@@ -2,6 +2,8 @@
 
 This repo is a public teaching artifact, not a private case archive.
 
+The teaching frame may state that private source material was reviewed and consolidated. It must not publish or quote the underlying messages, recordings, raw exports, or evidence.
+
 ## Included
 
 - An anonymized HTML learning page.
@@ -12,6 +14,7 @@ This repo is a public teaching artifact, not a private case archive.
 ## Excluded
 
 - Private ledgers.
+- Recordings.
 - Raw texts or transcript exports.
 - MP3/audio files.
 - Raw lyrics.

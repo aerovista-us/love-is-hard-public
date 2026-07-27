@@ -14,6 +14,7 @@ Hosted source:
 site/
   index.html
   focus-interruption-map.svg
+  audio/*.mp3
   .nojekyll
 ```
 
@@ -38,7 +39,7 @@ Do not add private materials to this repo:
 - no internal API URLs;
 - no claims that Summit Learning is an external customer unless confirmed by the owner.
 
-Songs may be referenced by title and broad teaching theme when the framing avoids diagnosis, accusation, raw lyrics, and proof-dump language.
+The current `site/audio` MP3 set is intentionally cleared for this public player. Additional songs should be reviewed before publishing.
 
 ## GitHub Pages
 

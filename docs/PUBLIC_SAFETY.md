@@ -8,7 +8,7 @@ The teaching frame may state that private source material was reviewed and conso
 
 - An anonymized HTML learning page.
 - A public-safe SVG diagram about focus interruption and repair structure.
-- Song titles and broad teaching themes where they express difficulty without over-blaming.
+- Song titles, broad teaching themes, and the cleared public MP3 player set.
 - GitHub Pages deployment workflow.
 
 ## Excluded
@@ -16,7 +16,7 @@ The teaching frame may state that private source material was reviewed and conso
 - Private ledgers.
 - Recordings.
 - Raw texts or transcript exports.
-- MP3/audio files.
+- MP3/audio files outside the cleared public player set.
 - Raw lyrics.
 - Identifying dates, people, or private incident details.
 - Internal service endpoints.
@@ -36,3 +36,5 @@ Songs can support the teaching as emotional lenses. Keep them in balanced langua
 - avoid diagnosing either side;
 - avoid lyrics as evidence;
 - pair harder titles with two-truth prompts.
+
+The current public player includes owner-cleared MP3 files. Do not add more recordings without a fresh review.

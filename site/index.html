@@ -275,6 +275,32 @@
     .song h3 { font-size: 1.15rem; }
     .song[data-hidden="true"] { display: none; }
 
+    .player-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .player-card {
+      display: grid;
+      grid-template-columns: minmax(180px, .35fr) 1fr;
+      gap: 14px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .player-card h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .player-card audio {
+      width: 100%;
+    }
+
     .song-meta {
       display: flex;
       flex-wrap: wrap;
@@ -349,7 +375,7 @@
 
     @media (max-width: 980px) {
       .hero { min-height: 82svh; padding: 20px; }
-      .grid, .grid.two, .grid.four, .module { grid-template-columns: 1fr; }
+      .grid, .grid.two, .grid.four, .module, .player-card { grid-template-columns: 1fr; }
     }
 
     @media print {
@@ -378,6 +404,7 @@
     <a href="#course">Course</a>
     <a href="#map">Interrupt Map</a>
     <a href="#songs">Song Lenses</a>
+    <a href="#player">MP3 Player</a>
     <a href="#practice">Practice</a>
     <a href="#facilitator">Facilitator</a>
     <a href="#worksheet">Worksheet</a>
@@ -562,6 +589,77 @@
       </div>
     </section>
 
+    <section id="player" class="band">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>MP3 Player</h2>
+          <p>Selected public tracks from the collection.</p>
+        </div>
+        <div class="player-list">
+          <article class="player-card">
+            <h3>After We Learned to Hear Each Other</h3>
+            <audio controls preload="none" src="./audio/after-we-learned-to-hear-each-other.mp3"></audio>
+          </article>
+          <article class="player-card">
+            <h3>Head vs. Heart</h3>
+            <audio controls preload="none" src="./audio/head-vs-heart.mp3"></audio>
+          </article>
+          <article class="player-card">
+            <h3>Hearing Ain't the Same as Listenin</h3>
+            <audio controls preload="none" src="./audio/hearing-aint-the-same-as-listenin.mp3"></audio>
+          </article>
+          <article class="player-card">
+            <h3>Ain't One-Sided (I See It Clean)</h3>
+            <audio controls preload="none" src="./audio/aint-one-sided-i-see-it-clean.mp3"></audio>
+          </article>
+          <article class="player-card">
+            <h3>Baseline</h3>
+            <audio controls preload="none" src="./audio/baseline.mp3"></audio>
+          </article>
+          <article class="player-card">
+            <h3>Two Things True</h3>
+            <audio controls preload="none" src="./audio/two-things-true.mp3"></audio>
+          </article>
+          <article class="player-card">
+            <h3>Peace Ain't a Prison</h3>
+            <audio controls preload="none" src="./audio/peace-aint-a-prison.mp3"></audio>
+          </article>
+          <article class="player-card">
+            <h3>Finding the Middle</h3>
+            <audio controls preload="none" src="./audio/finding-the-middle.mp3"></audio>
+          </article>
+          <article class="player-card">
+            <h3>How Does It Hurt Me</h3>
+            <audio controls preload="none" src="./audio/how-does-it-hurt-me.mp3"></audio>
+          </article>
+          <article class="player-card">
+            <h3>Feelings Ain't Facts</h3>
+            <audio controls preload="none" src="./audio/feelings-aint-facts.mp3"></audio>
+          </article>
+          <article class="player-card">
+            <h3>Proof I Care</h3>
+            <audio controls preload="none" src="./audio/proof-i-care.mp3"></audio>
+          </article>
+          <article class="player-card">
+            <h3>Still Counts (Remix)</h3>
+            <audio controls preload="none" src="./audio/still-counts-remix.mp3"></audio>
+          </article>
+          <article class="player-card">
+            <h3>Nothing Left to Prove</h3>
+            <audio controls preload="none" src="./audio/nothing-left-to-prove.mp3"></audio>
+          </article>
+          <article class="player-card">
+            <h3>Paint Me the Villain</h3>
+            <audio controls preload="none" src="./audio/paint-me-the-villain.mp3"></audio>
+          </article>
+          <article class="player-card">
+            <h3>The Narrator</h3>
+            <audio controls preload="none" src="./audio/the-narrator.mp3"></audio>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section id="practice" class="band">
       <div class="wrap">
         <div class="section-head">
@@ -701,6 +799,14 @@
       notes.value = '';
       localStorage.removeItem(key);
       status.textContent = 'Cleared.';
+    });
+
+    document.querySelectorAll('audio').forEach((audio) => {
+      audio.addEventListener('play', () => {
+        document.querySelectorAll('audio').forEach((other) => {
+          if (other !== audio) other.pause();
+        });
+      });
     });
   </script>
 </body>

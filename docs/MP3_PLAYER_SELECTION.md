@@ -43,7 +43,9 @@ These may be powerful in the private project but are too accusatory, safety-spec
 
 ## Suggested First Release
 
-Use the 8-track recommended player set first. Add `How Does It Hurt Me_ (1).mp3` as a ninth track only if the player labels it as the interrupt/capacity module and avoids presenting it as proof.
+Use the 8-track recommended player set, all optional tracks, plus `Paint Me the Villain.mp3` and `THE NARRATOR.mp3`.
+
+Per owner direction, the first player release includes these without additional per-track framing.
 
 ## Player Copy Rule
 

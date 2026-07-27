@@ -82,24 +82,107 @@ if (mainPlayer && playlistButtons.length) {
   setTrack(0);
 }
 
-const notes = document.getElementById('notes');
 const status = document.getElementById('noteStatus');
-if (notes && status) {
-  const key = 'love_is_hard_public_notes_v3';
-  const saved = localStorage.getItem(key);
-  if (saved) {
-    notes.value = saved;
-    status.textContent = 'Loaded saved notes.';
-  }
+const workbookFields = Array.from(document.querySelectorAll('[data-workbook-field]'));
+if (workbookFields.length && status) {
+  const key = 'love_is_hard_public_workbook_v1';
   const save = document.getElementById('saveNotes');
   const clear = document.getElementById('clearNotes');
-  if (save) save.addEventListener('click', () => {
-    localStorage.setItem(key, notes.value);
-    status.textContent = `Saved locally at ${new Date().toLocaleString()}.`;
+  const exportButton = document.getElementById('exportWorkbook');
+  const importButton = document.getElementById('importWorkbook');
+  const importFile = document.getElementById('workbookImportFile');
+
+  const setModuleStatus = () => {
+    const modules = Array.from(document.querySelectorAll('.workbook-module'));
+    modules.forEach((module) => {
+      const fields = Array.from(module.querySelectorAll('[data-workbook-field]'));
+      const completed = fields.filter((field) => field.value.trim()).length;
+      const label = module.querySelector('.status');
+      if (label) label.textContent = `${completed} of ${fields.length} fields complete`;
+    });
+  };
+
+  const getWorkbook = () => {
+    const data = {};
+    workbookFields.forEach((field) => {
+      data[field.id] = field.value;
+    });
+    data.__savedAt = new Date().toISOString();
+    return data;
+  };
+
+  const applyWorkbook = (data) => {
+    workbookFields.forEach((field) => {
+      if (typeof data[field.id] === 'string') field.value = data[field.id];
+    });
+    setModuleStatus();
+    status.textContent = data.__savedAt ? `Loaded saved workbook from ${new Date(data.__savedAt).toLocaleString()}.` : 'Loaded workbook.';
+  };
+
+  const saveWorkbook = () => {
+    const data = getWorkbook();
+    localStorage.setItem(key, JSON.stringify(data));
+    setModuleStatus();
+    status.textContent = `Saved locally at ${new Date(data.__savedAt).toLocaleString()}.`;
+    return data;
+  };
+
+  const saved = localStorage.getItem(key);
+  if (saved) {
+    try {
+      applyWorkbook(JSON.parse(saved));
+    } catch {
+      status.textContent = 'Saved workbook could not be loaded.';
+    }
+  } else {
+    setModuleStatus();
+  }
+
+  workbookFields.forEach((field) => {
+    field.addEventListener('input', () => {
+      setModuleStatus();
+    });
   });
+
+  if (save) save.addEventListener('click', saveWorkbook);
+
   if (clear) clear.addEventListener('click', () => {
-    notes.value = '';
+    workbookFields.forEach((field) => {
+      field.value = '';
+    });
     localStorage.removeItem(key);
+    setModuleStatus();
     status.textContent = 'Cleared.';
   });
+
+  if (exportButton) {
+    exportButton.addEventListener('click', () => {
+      const data = saveWorkbook();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'love-is-hard-workbook.json';
+      link.click();
+      URL.revokeObjectURL(link.href);
+    });
+  }
+
+  if (importButton && importFile) {
+    importButton.addEventListener('click', () => importFile.click());
+    importFile.addEventListener('change', () => {
+      const file = importFile.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        try {
+          const data = JSON.parse(reader.result);
+          applyWorkbook(data);
+          saveWorkbook();
+        } catch {
+          status.textContent = 'Import failed. Choose a valid workbook JSON file.';
+        }
+      });
+      reader.readAsText(file);
+    });
+  }
 }

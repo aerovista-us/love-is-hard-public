@@ -206,8 +206,8 @@ function head(title) {
   <meta property="og:title" content="Love Is Hard" />
   <meta property="og:description" content="${description}" />
   <meta property="og:image" content="${siteUrl}assets/og-image.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
+  <meta property="og:image:width" content="1731" />
+  <meta property="og:image:height" content="909" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Love Is Hard" />
   <meta name="twitter:description" content="${description}" />

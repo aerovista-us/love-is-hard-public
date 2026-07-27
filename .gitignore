@@ -1,0 +1,15 @@
+# Local/editor
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Environment and logs
+.env
+*.local
+*.log
+npm-debug.log*
+
+# Generated
+dist/
+node_modules/

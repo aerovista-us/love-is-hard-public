@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Focus interruption map</title>
+  <desc id="desc">A public-safe relationship learning diagram showing how feeling, urgency, interruption, lost capacity, delay, and renewed conflict can form a loop.</desc>
+  <rect width="1200" height="720" fill="#f7f1e6"/>
+  <g opacity=".16">
+    <circle cx="128" cy="112" r="110" fill="#287a71"/>
+    <circle cx="1070" cy="125" r="140" fill="#b66c38"/>
+    <circle cx="988" cy="624" r="170" fill="#415b87"/>
+  </g>
+  <g fill="none" stroke="#17202b" stroke-width="3" opacity=".14">
+    <path d="M102 526 C265 432 364 641 528 520 C659 422 730 306 896 375 C1003 420 1054 480 1124 430"/>
+    <path d="M60 247 C202 168 326 241 438 197 C574 144 698 126 810 188 C938 258 1034 246 1150 184"/>
+  </g>
+  <text x="82" y="92" font-family="Inter, Arial, sans-serif" font-size="48" font-weight="800" fill="#17202b">When Conflict Interrupts Capacity</text>
+  <text x="84" y="135" font-family="Inter, Arial, sans-serif" font-size="22" fill="#56616d">A teaching map for separating pain, urgency, focus, delay, and repair.</text>
+  <g font-family="Inter, Arial, sans-serif">
+    <g transform="translate(86 226)"><rect width="228" height="122" rx="10" fill="#fffdf8" stroke="#d7cbb8" stroke-width="2"/><text x="24" y="42" font-size="23" font-weight="800" fill="#17202b">Feeling</text><text x="24" y="74" font-size="17" fill="#56616d">Pain, fear, grief, or</text><text x="24" y="98" font-size="17" fill="#56616d">feeling unseen.</text></g>
+    <g transform="translate(384 226)"><rect width="228" height="122" rx="10" fill="#fffdf8" stroke="#d7cbb8" stroke-width="2"/><text x="24" y="42" font-size="23" font-weight="800" fill="#17202b">Urgency</text><text x="24" y="74" font-size="17" fill="#56616d">A need for immediate</text><text x="24" y="98" font-size="17" fill="#56616d">reassurance or proof.</text></g>
+    <g transform="translate(682 226)"><rect width="228" height="122" rx="10" fill="#fffdf8" stroke="#d7cbb8" stroke-width="2"/><text x="24" y="42" font-size="23" font-weight="800" fill="#17202b">Interruption</text><text x="24" y="74" font-size="17" fill="#56616d">Focus is rerouted into</text><text x="24" y="98" font-size="17" fill="#56616d">defense or repair labor.</text></g>
+    <g transform="translate(862 430)"><rect width="248" height="122" rx="10" fill="#fffdf8" stroke="#d7cbb8" stroke-width="2"/><text x="24" y="42" font-size="23" font-weight="800" fill="#17202b">Lost Capacity</text><text x="24" y="74" font-size="17" fill="#56616d">Work, rest, and clear</text><text x="24" y="98" font-size="17" fill="#56616d">thinking get harder.</text></g>
+    <g transform="translate(518 430)"><rect width="248" height="122" rx="10" fill="#fffdf8" stroke="#d7cbb8" stroke-width="2"/><text x="24" y="42" font-size="23" font-weight="800" fill="#17202b">Delay</text><text x="24" y="74" font-size="17" fill="#56616d">The delayed work becomes</text><text x="24" y="98" font-size="17" fill="#56616d">new conflict material.</text></g>
+    <g transform="translate(174 430)"><rect width="248" height="122" rx="10" fill="#fffdf8" stroke="#d7cbb8" stroke-width="2"/><text x="24" y="42" font-size="23" font-weight="800" fill="#17202b">Repair Structure</text><text x="24" y="74" font-size="17" fill="#56616d">Name feeling, capacity,</text><text x="24" y="98" font-size="17" fill="#56616d">clean ask, return time.</text></g>
+  </g>
+  <g fill="none" stroke="#b66c38" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M320 287h54"/><path d="M360 270l18 17-18 17"/><path d="M618 287h54"/><path d="M658 270l18 17-18 17"/><path d="M890 348c70 30 96 44 96 75"/><path d="M1002 404l-16 22-20-18"/><path d="M858 490h-82"/><path d="M796 473l-22 17 22 17"/><path d="M512 490h-82"/><path d="M450 473l-22 17 22 17"/><path d="M236 430c-60-76-32-142 34-162"/><path d="M242 268l28-2-7 27"/></g>
+  <rect x="84" y="616" width="1032" height="56" rx="10" fill="#17202b"/>
+  <text x="112" y="652" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="800" fill="#fffdf8">Practice line:</text>
+  <text x="260" y="652" font-family="Inter, Arial, sans-serif" font-size="21" fill="#fffdf8">I can hear this hurts, and I need a return plan that protects focus and repair.</text>
+</svg>

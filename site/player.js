@@ -17,9 +17,38 @@ const currentTrack = document.getElementById('currentTrack');
 const playerStatus = document.getElementById('playerStatus');
 const prevTrack = document.getElementById('prevTrack');
 const nextTrack = document.getElementById('nextTrack');
+const playPause = document.getElementById('playPause');
+const trackProgress = document.getElementById('trackProgress');
+const currentTime = document.getElementById('currentTime');
+const durationTime = document.getElementById('durationTime');
 
 if (mainPlayer && playlistButtons.length) {
   let currentIndex = 0;
+  let isScrubbing = false;
+
+  const formatTime = (seconds) => {
+    if (!Number.isFinite(seconds)) return '0:00';
+    const minutes = Math.floor(seconds / 60);
+    const remaining = Math.floor(seconds % 60).toString().padStart(2, '0');
+    return `${minutes}:${remaining}`;
+  };
+
+  const updatePlayButton = () => {
+    if (!playPause) return;
+    playPause.textContent = mainPlayer.paused ? 'Play' : 'Pause';
+    playPause.setAttribute('aria-label', mainPlayer.paused ? 'Play current track' : 'Pause current track');
+    playPause.classList.toggle('is-playing', !mainPlayer.paused);
+  };
+
+  const updateProgress = () => {
+    const duration = mainPlayer.duration || 0;
+    const time = mainPlayer.currentTime || 0;
+    if (trackProgress && !isScrubbing) {
+      trackProgress.value = duration ? Math.round((time / duration) * Number(trackProgress.max)) : 0;
+    }
+    if (currentTime) currentTime.textContent = formatTime(time);
+    if (durationTime) durationTime.textContent = formatTime(duration);
+  };
 
   const updateControls = () => {
     if (prevTrack) prevTrack.disabled = currentIndex === 0;
@@ -39,10 +68,13 @@ if (mainPlayer && playlistButtons.length) {
     if (mainPlayer.getAttribute('src') !== track.dataset.src) {
       mainPlayer.src = track.dataset.src;
     }
+    mainPlayer.currentTime = 0;
 
     if (currentTrack) currentTrack.textContent = title;
     if (playerStatus) playerStatus.textContent = `Track ${currentIndex + 1} of ${playlistButtons.length}`;
     updateControls();
+    updateProgress();
+    updatePlayButton();
 
     if (shouldPlay) {
       const playRequest = mainPlayer.play();
@@ -53,6 +85,38 @@ if (mainPlayer && playlistButtons.length) {
       }
     }
   };
+
+  if (playPause) {
+    playPause.addEventListener('click', () => {
+      if (mainPlayer.paused) {
+        const playRequest = mainPlayer.play();
+        if (playRequest) {
+          playRequest.catch(() => {
+            if (playerStatus) playerStatus.textContent = 'Press play to continue.';
+          });
+        }
+        return;
+      }
+
+      mainPlayer.pause();
+    });
+  }
+
+  if (trackProgress) {
+    trackProgress.addEventListener('input', () => {
+      isScrubbing = true;
+      const duration = mainPlayer.duration || 0;
+      const nextTime = duration * (Number(trackProgress.value) / Number(trackProgress.max));
+      if (currentTime) currentTime.textContent = formatTime(nextTime);
+    });
+
+    trackProgress.addEventListener('change', () => {
+      const duration = mainPlayer.duration || 0;
+      mainPlayer.currentTime = duration * (Number(trackProgress.value) / Number(trackProgress.max));
+      isScrubbing = false;
+      updateProgress();
+    });
+  }
 
   playlistButtons.forEach((button, index) => {
     button.addEventListener('click', () => setTrack(index, true));
@@ -77,7 +141,12 @@ if (mainPlayer && playlistButtons.length) {
     }
 
     if (playerStatus) playerStatus.textContent = 'Playlist complete.';
+    updatePlayButton();
   });
+  mainPlayer.addEventListener('loadedmetadata', updateProgress);
+  mainPlayer.addEventListener('timeupdate', updateProgress);
+  mainPlayer.addEventListener('play', updatePlayButton);
+  mainPlayer.addEventListener('pause', updatePlayButton);
 
   setTrack(0);
 }

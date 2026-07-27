@@ -5,7 +5,7 @@ const description = 'A public-safe teaching collection about repair, listening, 
 
 const nav = [
   ['index.html', 'Start', 'Start'],
-  ['lesson-01.html', 'Session 1', 'Name the Pieces'],
+  ['lesson-01.html', 'Feeling vs Claim', 'Feeling Before Verdict'],
   ['lesson-02.html', 'Session 2', 'Hear Clearly'],
   ['lesson-03.html', 'Session 3', 'Hidden Premise'],
   ['lesson-04.html', 'Session 4', 'Proof Pressure'],
@@ -25,16 +25,16 @@ const sessions = [
   {
     file: 'lesson-01.html',
     short: 'Session 1',
-    title: 'Name the Pieces',
-    lead: 'Separate feeling, interpretation, claim, request, and boundary before a conversation turns into a verdict.',
+    title: 'Feeling Before Verdict',
+    lead: 'Start with what you know: what you are feeling. Then separate the meaning you made from what has actually been observed or established.',
     tag: 'Precision',
     concepts: [
-      ['Feeling vs Claim', 'A feeling is inner data. A claim assigns cause, motive, or responsibility outside you.', 'I feel scared and need clarity.', 'You obviously do not care.', 'I feel ___, and the story I am telling myself is ___. Can we check it?', 'Watch for always, never, obviously, and if you cared.'],
+      ['Feeling vs Claim', 'A feeling is inner data. A claim assigns cause, motive, or responsibility outside you.', 'I feel scared and need clarity.', 'You obviously do not care.', 'I feel ___, and the interpretation I am making is ___. Can we check it?', 'Watch for always, never, obviously, and if you cared.'],
       ['Interpretation Check', 'The first explanation may be compelling without being complete.', 'I am noticing a fear story and want to verify it.', 'My fear is proof that your motive is bad.', 'The meaning I made was ___. Is that what you meant?', 'Watch for mind-reading and instant certainty.'],
       ['Clean Request', 'A request names what would help without making the other person confess to a hidden charge.', 'Can we talk for 20 minutes at 6:30?', 'Prove I matter right now or this means everything.', 'What I am asking for is ___. Is that available?', 'Watch for requests that require surrendering reality.'],
     ],
     practice: 'Rewrite one loaded sentence into five parts: what I felt, what I interpreted, what I claimed, what I needed, and what boundary or capacity limit was present.',
-    next: ['lesson-02.html', 'Next: Hear Clearly'],
+    next: ['lesson-02.html', 'Next: When Reassurance Becomes a Test'],
     prev: ['index.html', 'Back: Start'],
   },
   {
@@ -232,7 +232,7 @@ function header(file, progressLabel = '') {
 }
 
 function footer() {
-  return `<footer class="footer"><div class="wrap"><span>Love Is Hard | Public-safe collection consolidation</span><span>Teach the pattern, not the person.</span></div></footer>
+  return `<footer class="footer"><div class="wrap"><span><strong>Love Is Hard</strong> | A Summit Learning Release</span><span>Educational material for communication and pattern recognition. Not diagnosis, therapy, legal advice, or a verdict about any individual.</span></div></footer>
   <script src="./player.js"></script>
 </body>
 </html>`;
@@ -259,12 +259,32 @@ function conceptCards(items) {
   </article>`).join('')}</div>`;
 }
 
+function lessonOneBody(s) {
+  return `<main><section><div class="wrap"><div class="section-head"><span class="tag copper">${s.tag}</span><h1>${s.title}</h1><p>${s.lead}</p></div>
+  <div class="quote"><strong>A verdict</strong> is an interpretation that has been treated as settled fact before it has been checked. The goal is not to distrust your feelings. The goal is to separate what you feel from the explanation that appeared with it.</div>
+  <div class="grid two" style="margin-top:18px"><article class="card"><h2>Why This Matters</h2><p>External behavior may have contributed to the feeling. Someone may have lied, insulted, ignored an agreement, interrupted, or crossed a boundary. Separating the pieces helps you discuss that behavior accurately instead of treating the first explanation as the final truth.</p></article><article class="card accent"><h2>Anchor</h2><p>A feeling deserves care. A claim may also require clarification, evidence, or correction.</p></article></div>
+  <section class="lesson-block"><div class="section-head"><h2>The Five-Part Separator</h2><p>Use this sequence before the conversation becomes a verdict.</p></div><ol class="steps five-part"><li><strong>Feeling</strong><span>The internal experience being reported. “I feel lonely.”</span></li><li><strong>Interpretation</strong><span>The meaning being assigned. “I am reading the silence as distance.”</span></li><li><strong>Claim</strong><span>An assertion about motive, character, behavior, or responsibility. “You are ignoring me because you do not care.”</span></li><li><strong>Request</strong><span>The specific action being asked for. “Can we schedule ten minutes to reconnect tonight?”</span></li><li><strong>Boundary or Constraint</strong><span>The limit that must remain intact. “I can talk at 7:30, but not during my work block.”</span></li></ol></section>
+  <section class="lesson-block"><div class="section-head"><h2>Clean Expression vs Verdict Expression</h2><p>The difference is not whether pain is real. The difference is whether the claim has been checked.</p></div><div class="comparison"><article class="card good-card"><span class="tag teal">Clean expression</span><p>“I feel disconnected. I am interpreting the quiet as rejection. Could you tell me what is happening on your side?”</p></article><article class="card warn-card"><span class="tag rose">Verdict expression</span><p>“I feel like you are ignoring me because I do not matter to you.”</p></article></div><p class="note">The second sentence contains a real feeling, but it also contains several unverified conclusions: the silence is intentional, the intention is rejection, the reason is lack of care, and the speaker’s worth has been judged.</p></section>
+  <section class="lesson-block"><div class="grid two"><article class="card"><h2>Speaker Practice Line</h2><p>“I feel alone. I am interpreting the distance as meaning I do not matter, but I know that may not be the whole story. Can you tell me what is happening on your side? What I am asking for is a clear time to reconnect.”</p><p class="note"><strong>Mobile version:</strong> “I feel alone. I am reading the distance as rejection. Is that accurate? Can we choose a time to reconnect?”</p></article><article class="card"><h2>How to Respond Without Dismissing or Surrendering</h2><p>“I hear that you feel alone, and I care about that. I do not agree that my being unavailable means you do not matter. I can talk at 7:30 for twenty minutes.”</p><p class="note">This acknowledges the feeling, avoids a false confession, gives useful information, and names realistic capacity.</p></article></div></section>
+  <section class="lesson-block"><div class="section-head"><h2>Watch For: Language That May Hide a Verdict</h2><p>These words are warning lights, not proof of bad intent. Slow the conversation down and return to exact behavior.</p></div><div class="grid"><article class="card"><h3>Always / Never</h3><p>May turn one event into a total character judgment.</p><p><strong>Ask:</strong> What specific examples are we discussing?</p></article><article class="card"><h3>Obviously</h3><p>May treat an interpretation as if no other explanation is possible.</p><p><strong>Ask:</strong> What did you observe, and what meaning did you assign to it?</p></article><article class="card"><h3>Admit</h3><p>May turn accountability into a demand for confession.</p><p><strong>Ask:</strong> What specific behavior are you asking me to own, and what interpretation are you asking me to agree with?</p></article></div></section>
+  <section class="lesson-block"><div class="section-head"><h2>Try It</h2><p>Classify each statement, then check the answer.</p></div><div class="grid two"><article class="card"><ol><li>“I feel scared.”</li><li>“I feel like you do not care.”</li><li>“You made me feel unwanted.”</li><li>“Can we talk for ten minutes tonight?”</li><li>“I can talk tonight, but not while I am driving.”</li></ol></article><article class="card"><ol><li><strong>Feeling</strong></li><li><strong>Claim wrapped in feeling language</strong></li><li><strong>Causal claim</strong></li><li><strong>Request</strong></li><li><strong>Boundary or constraint</strong></li></ol></article></div></section>
+  <section class="lesson-block"><div class="section-head"><h2>Real-Life Separation Exercise</h2><p>Complete the sequence before asking the other person to respond.</p></div><div class="worksheet mini-form"><p><strong>What I feel:</strong> I feel ______.</p><p><strong>What I observed:</strong> The specific event was ______.</p><p><strong>What I interpreted:</strong> I took that to mean ______.</p><p><strong>What I am claiming:</strong> I am currently assuming that you ______.</p><p><strong>What I need:</strong> I need ______.</p><p><strong>What I am requesting:</strong> Would you be willing to ______?</p><p><strong>What boundary or constraint exists:</strong> The limit that still needs to be respected is ______.</p></div></section>
+  <section class="lesson-block"><div class="grid two"><article class="card accent"><h2>Important Limit</h2><p>Separating feeling from interpretation does not mean harmful behavior should be ignored. Threats, coercion, violence, stalking, intimidation, or other safety concerns should be assessed directly through behavior, evidence, and appropriate support. This tool is not for arguing someone out of a safety concern.</p><p>A person may be wrong about motive and still be right that a behavior caused harm.</p></article><article class="card"><h2>Two Things Can Be True</h2><p>You may be genuinely hurt, and your first explanation may still need checking.</p><p>The other person may have a valid boundary, and their delivery may still need repair.</p></article></div></section>
+  <div class="quote"><strong>Reflection:</strong> Think of one recent statement that began with “I feel like...” What was the actual feeling? What interpretation followed it? What claim was being made? What clean request could replace the verdict?</div>
+  <div class="quote" style="margin-top:18px"><strong>Bridge:</strong> When an interpretation is not separated from the feeling, reassurance may be asked to prove the interpretation wrong. If no answer is allowed to settle the fear, the conversation can move from connection into proof pressure.</div>
+  <div class="pager"><a class="btn" href="./${s.prev[0]}">${s.prev[1]}</a><a class="btn primary" href="./${s.next[0]}">${s.next[1]}</a></div></div></section></main>`;
+}
+
 page('index.html', 'Love Is Hard', `<section class="hero"><div class="hero-inner"><span class="eyebrow">Summit Learning | Public-safe case study</span><h1>Love Is Hard: When Conversations Become Tests</h1><p class="lede">Learn to separate feelings from claims, care from proof, boundaries from abandonment, and repair from surrender.</p><div class="cta-row"><a class="btn primary" href="./lesson-01.html">Start the 8-session path</a><a class="btn" href="./tools.html">Use a tool now</a><a class="btn" href="./player.html">Listen to audio</a></div></div></section>
 <main><section><div class="wrap"><div class="section-head"><h2>Learn</h2><p>Love Is Hard is a Summit Learning program for recognizing when ordinary needs for reassurance, safety, understanding, or repair begin turning into tests, verdicts, pressure, or war.</p></div><div class="lesson-list">
 ${sessions.map((s, i) => `<a class="module" href="./${s.file}"><div><span class="tag ${['teal','blue','copper','rose'][i % 4]}">${String(i + 1).padStart(2, '0')}</span><h3>${s.title}</h3></div><p>${s.lead}</p></a>`).join('')}
 </div></div></section><section class="band"><div class="wrap"><div class="grid three"><article class="card"><h3>Audio Companion</h3><p>Tracks are grouped by learning role and used as prompts, not proof.</p><a class="inline-link" href="./songs.html">Open audio lenses</a></article><article class="card"><h3>Workbook</h3><p>Use structured fields for hidden claims, reaction sequence, boundary return, split apology, two truths, and repair gates.</p><a class="inline-link" href="./worksheet.html">Open workbook</a></article><article class="card"><h3>Tools</h3><p>Borrowed War Loop, pause protocol, operating agreement, and glossary terms in one public-safe toolkit.</p><a class="inline-link" href="./tools.html">Open tools</a></article></div></div></section></main>`, 'Start');
 
 for (const s of sessions) {
+  if (s.file === 'lesson-01.html') {
+    page(s.file, s.title, lessonOneBody(s));
+    continue;
+  }
   page(s.file, s.title, `<main><section><div class="wrap"><div class="section-head"><span class="tag copper">${s.tag}</span><h1>${s.title}</h1><p>${s.lead}</p></div>${conceptCards(s.concepts)}<div class="quote" style="margin-top:18px"><strong>Practice:</strong> ${s.practice}</div><div class="pager"><a class="btn" href="./${s.prev[0]}">${s.prev[1]}</a><a class="btn primary" href="./${s.next[0]}">${s.next[1]}</a></div></div></section></main>`);
 }
 

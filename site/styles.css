@@ -68,6 +68,15 @@ section { padding: clamp(36px, 6vw, 76px) 24px; }
 .concept-card dl { display: grid; gap: 9px; margin: 0; }
 .concept-card dt { color: var(--ink); font-weight: 900; }
 .concept-card dd { margin: 0; color: var(--muted); }
+.lesson-block { padding: 34px 0 0; }
+.lesson-block + .lesson-block { margin-top: 10px; border-top: 1px solid var(--line); }
+.comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.good-card { border-top: 5px solid var(--teal); }
+.warn-card { border-top: 5px solid var(--rose); }
+.note { margin-top: 12px; color: var(--muted); }
+.mini-form { display: grid; gap: 10px; }
+.five-part li strong { display: block; color: var(--ink); }
+.five-part li span { color: var(--muted); }
 .song-band { padding: 24px 0 0; }
 .song-band + .song-band { margin-top: 16px; border-top: 1px solid var(--line); }
 .steps { counter-reset: item; list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }

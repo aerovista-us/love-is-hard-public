@@ -2,7 +2,7 @@
 
 Public-safe Summit Learning case-study page for the Love Is Hard collection.
 
-This repository is intentionally static. It hosts an anonymized teaching artifact about feeling, proof pressure, focus interruption, boundaries, repair, and songs as non-blaming learning lenses.
+This repository is intentionally static. It hosts an anonymized multi-page lesson set about feeling, proof pressure, focus interruption, boundaries, repair, and songs as non-blaming learning lenses.
 
 The public teaching frame was reviewed and consolidated from private source material. The underlying messages, recordings, and evidence are intentionally not included in this public repository.
 
@@ -13,6 +13,18 @@ Hosted source:
 ```text
 site/
   index.html
+  lesson-01.html
+  lesson-02.html
+  lesson-03.html
+  lesson-04.html
+  lesson-05.html
+  songs.html
+  player.html
+  worksheet.html
+  facilitator.html
+  guardrails.html
+  styles.css
+  player.js
   focus-interruption-map.svg
   audio/*.mp3
   .nojekyll
@@ -21,6 +33,7 @@ site/
 ## Teaching Features
 
 - Full module sequence for feeling, proof pressure, interruption, boundaries, and safety.
+- Page-by-page navigation with a progress bar and next/back movement.
 - Song-lens library using titles/themes only.
 - Filterable song cards for repair, capacity, boundaries, and two-truth framing.
 - Practice language cards.

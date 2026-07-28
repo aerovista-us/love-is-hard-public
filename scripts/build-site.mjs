@@ -9,13 +9,13 @@ const navGroups = [
     links: [
       ['index.html', 'Start', 'Start'],
       ['lesson-01.html', 'Feeling vs Claim', 'Feeling Before Verdict'],
-      ['lesson-02.html', 'Session 2', 'Hear Clearly'],
-      ['lesson-03.html', 'Session 3', 'Hidden Premise'],
-      ['lesson-04.html', 'Session 4', 'Proof Pressure'],
-      ['lesson-05.html', 'Session 5', 'Escalation Map'],
-      ['lesson-06.html', 'Session 6', 'Boundaries'],
-      ['lesson-07.html', 'Session 7', 'Operations'],
-      ['lesson-08.html', 'Session 8', 'Agreement'],
+      ['lesson-02.html', 'Hear Clearly', 'Hear Clearly'],
+      ['lesson-03.html', 'Hidden Premise', 'Hidden Premise'],
+      ['lesson-04.html', 'Proof Pressure', 'Proof Pressure'],
+      ['lesson-05.html', 'Escalation Map', 'Escalation Map'],
+      ['lesson-06.html', 'Boundaries', 'Boundaries'],
+      ['lesson-07.html', 'Operations', 'Operations'],
+      ['lesson-08.html', 'Agreement', 'Agreement'],
     ],
   },
   {
@@ -246,15 +246,24 @@ function header(file, progressLabel = '') {
   const progress = sessions.findIndex((s) => s.file === file) + 1;
   const label = progress ? `Session ${progress} of 8 | ${sessions[progress - 1].progressTitle || sessions[progress - 1].title}` : progressLabel;
   const width = progress ? Math.round((progress / 8) * 100) : 0;
+  const activeGroup = navGroups.find((group) => group.links.some(([href]) => href === file));
+  const activeLink = activeGroup?.links.find(([href]) => href === file);
+  const menuLabel = activeGroup && activeLink ? `${activeGroup.label} / ${activeLink[1]}` : 'Open navigation';
   const links = navGroups.map((group) => {
-    const items = group.links.map(([href, label]) => `<a href="./${href}" class="${href === file ? 'active' : ''}">${label}</a>`).join('');
-    return `<div class="nav-group"><span>${group.label}</span>${items}</div>`;
+    const items = group.links.map(([href, label, title], index) => {
+      const marker = group.label === 'Learn' && href !== 'index.html' ? index : index + 1;
+      return `<a href="./${href}" class="${href === file ? 'active' : ''}"><span>${href === 'index.html' ? 'Start' : marker}</span><strong>${label}</strong><small>${title}</small></a>`;
+    }).join('');
+    return `<section class="nav-group" aria-labelledby="nav-${group.label.toLowerCase()}"><h2 id="nav-${group.label.toLowerCase()}">${group.label}</h2><div>${items}</div></section>`;
   }).join('');
   return `<body>
   <header class="site-header">
     <div class="nav-shell">
       <div class="brand-row"><a class="brand" href="./index.html">Love Is Hard</a><span class="progress-label">${label}</span></div>
-      <nav class="nav-links" aria-label="Site navigation">${links}</nav>
+      <details class="menu-shell">
+        <summary><span>Menu</span><strong>${menuLabel}</strong></summary>
+        <nav class="nav-links" aria-label="Site navigation">${links}</nav>
+      </details>
       ${progress ? `<div class="progress-bar" aria-hidden="true"><span style="width:${width}%"></span></div>` : ''}
     </div>
   </header>`;

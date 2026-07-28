@@ -3,22 +3,47 @@ import { writeFileSync } from 'node:fs';
 const siteUrl = 'https://aerovista-us.github.io/love-is-hard-public/';
 const description = 'A public-safe teaching collection about repair, listening, and emotional complexity.';
 
-const nav = [
-  ['index.html', 'Start', 'Start'],
-  ['lesson-01.html', 'Feeling vs Claim', 'Feeling Before Verdict'],
-  ['lesson-02.html', 'Session 2', 'Hear Clearly'],
-  ['lesson-03.html', 'Session 3', 'Hidden Premise'],
-  ['lesson-04.html', 'Session 4', 'Proof Pressure'],
-  ['lesson-05.html', 'Session 5', 'Escalation Map'],
-  ['lesson-06.html', 'Session 6', 'Boundaries'],
-  ['lesson-07.html', 'Session 7', 'Operations'],
-  ['lesson-08.html', 'Session 8', 'Agreement'],
-  ['songs.html', 'Audio', 'Audio Lenses'],
-  ['player.html', 'Player', 'MP3 Player'],
-  ['worksheet.html', 'Workbook', 'Workbook'],
-  ['tools.html', 'Tools', 'Tools'],
-  ['facilitator.html', 'Facilitator', 'Facilitator'],
-  ['guardrails.html', 'Guardrails', 'Guardrails'],
+const navGroups = [
+  {
+    label: 'Learn',
+    links: [
+      ['index.html', 'Start', 'Start'],
+      ['lesson-01.html', 'Feeling vs Claim', 'Feeling Before Verdict'],
+      ['lesson-02.html', 'Session 2', 'Hear Clearly'],
+      ['lesson-03.html', 'Session 3', 'Hidden Premise'],
+      ['lesson-04.html', 'Session 4', 'Proof Pressure'],
+      ['lesson-05.html', 'Session 5', 'Escalation Map'],
+      ['lesson-06.html', 'Session 6', 'Boundaries'],
+      ['lesson-07.html', 'Session 7', 'Operations'],
+      ['lesson-08.html', 'Session 8', 'Agreement'],
+    ],
+  },
+  {
+    label: 'Practice',
+    links: [
+      ['worksheet.html', 'Workbook', 'Workbook'],
+      ['tools.html', 'Tools', 'Tools'],
+    ],
+  },
+  {
+    label: 'Listen',
+    links: [
+      ['songs.html', 'Audio', 'Audio Lenses'],
+      ['player.html', 'Player', 'MP3 Player'],
+    ],
+  },
+  {
+    label: 'Facilitate',
+    links: [
+      ['facilitator.html', 'Facilitator', 'Facilitator'],
+    ],
+  },
+  {
+    label: 'About',
+    links: [
+      ['guardrails.html', 'Guardrails', 'Guardrails'],
+    ],
+  },
 ];
 
 const sessions = [
@@ -26,6 +51,7 @@ const sessions = [
     file: 'lesson-01.html',
     short: 'Session 1',
     title: 'Feeling Before Verdict',
+    progressTitle: 'Feelings, Claims, and Hearing',
     lead: 'Start with what you know: what you are feeling. Then separate the meaning you made from what has actually been observed or established.',
     tag: 'Precision',
     concepts: [
@@ -218,9 +244,12 @@ function head(title) {
 
 function header(file, progressLabel = '') {
   const progress = sessions.findIndex((s) => s.file === file) + 1;
-  const label = progress ? `Session ${progress} of 8` : progressLabel;
+  const label = progress ? `Session ${progress} of 8 | ${sessions[progress - 1].progressTitle || sessions[progress - 1].title}` : progressLabel;
   const width = progress ? Math.round((progress / 8) * 100) : 0;
-  const links = nav.map(([href, label]) => `<a href="./${href}" class="${href === file ? 'active' : ''}">${label}</a>`).join('');
+  const links = navGroups.map((group) => {
+    const items = group.links.map(([href, label]) => `<a href="./${href}" class="${href === file ? 'active' : ''}">${label}</a>`).join('');
+    return `<div class="nav-group"><span>${group.label}</span>${items}</div>`;
+  }).join('');
   return `<body>
   <header class="site-header">
     <div class="nav-shell">
@@ -263,7 +292,7 @@ function lessonOneBody(s) {
   return `<main><section><div class="wrap"><div class="section-head"><span class="tag copper">${s.tag}</span><h1>${s.title}</h1><p>${s.lead}</p></div>
   <div class="quote"><strong>A verdict</strong> is an interpretation that has been treated as settled fact before it has been checked. The goal is not to distrust your feelings. The goal is to separate what you feel from the explanation that appeared with it.</div>
   <div class="grid two" style="margin-top:18px"><article class="card"><h2>Why This Matters</h2><p>External behavior may have contributed to the feeling. Someone may have lied, insulted, ignored an agreement, interrupted, or crossed a boundary. Separating the pieces helps you discuss that behavior accurately instead of treating the first explanation as the final truth.</p></article><article class="card accent"><h2>Anchor</h2><p>A feeling deserves care. A claim may also require clarification, evidence, or correction.</p></article></div>
-  <section class="lesson-block"><div class="section-head"><h2>The Five-Part Separator</h2><p>Use this sequence before the conversation becomes a verdict.</p></div><ol class="steps five-part"><li><strong>Feeling</strong><span>The internal experience being reported. “I feel lonely.”</span></li><li><strong>Interpretation</strong><span>The meaning being assigned. “I am reading the silence as distance.”</span></li><li><strong>Claim</strong><span>An assertion about motive, character, behavior, or responsibility. “You are ignoring me because you do not care.”</span></li><li><strong>Request</strong><span>The specific action being asked for. “Can we schedule ten minutes to reconnect tonight?”</span></li><li><strong>Boundary or Constraint</strong><span>The limit that must remain intact. “I can talk at 7:30, but not during my work block.”</span></li></ol></section>
+  <section class="lesson-block"><div class="section-head"><h2>The Five-Part Separator</h2><p><strong>Feeling → Interpretation → Claim → Request → Boundary or constraint.</strong> Use this sequence before the conversation becomes a verdict.</p></div><ol class="steps five-part"><li><strong>Feeling</strong><span>The internal experience being reported. “I feel lonely.”</span></li><li><strong>Interpretation</strong><span>The meaning being assigned. “I am reading the silence as distance.”</span></li><li><strong>Claim</strong><span>An assertion about motive, character, behavior, or responsibility. “You are ignoring me because you do not care.”</span></li><li><strong>Request</strong><span>The specific action being asked for. “Can we schedule ten minutes to reconnect tonight?”</span></li><li><strong>Boundary or Constraint</strong><span>The limit that must remain intact. “I can talk at 7:30, but not during my work block.”</span></li></ol></section>
   <section class="lesson-block"><div class="section-head"><h2>Clean Expression vs Verdict Expression</h2><p>The difference is not whether pain is real. The difference is whether the claim has been checked.</p></div><div class="comparison"><article class="card good-card"><span class="tag teal">Clean expression</span><p>“I feel disconnected. I am interpreting the quiet as rejection. Could you tell me what is happening on your side?”</p></article><article class="card warn-card"><span class="tag rose">Verdict expression</span><p>“I feel like you are ignoring me because I do not matter to you.”</p></article></div><p class="note">The second sentence contains a real feeling, but it also contains several unverified conclusions: the silence is intentional, the intention is rejection, the reason is lack of care, and the speaker’s worth has been judged.</p></section>
   <section class="lesson-block"><div class="grid two"><article class="card"><h2>Speaker Practice Line</h2><p>“I feel alone. I am interpreting the distance as meaning I do not matter, but I know that may not be the whole story. Can you tell me what is happening on your side? What I am asking for is a clear time to reconnect.”</p><p class="note"><strong>Mobile version:</strong> “I feel alone. I am reading the distance as rejection. Is that accurate? Can we choose a time to reconnect?”</p></article><article class="card"><h2>How to Respond Without Dismissing or Surrendering</h2><p>“I hear that you feel alone, and I care about that. I do not agree that my being unavailable means you do not matter. I can talk at 7:30 for twenty minutes.”</p><p class="note">This acknowledges the feeling, avoids a false confession, gives useful information, and names realistic capacity.</p></article></div></section>
   <section class="lesson-block"><div class="section-head"><h2>Watch For: Language That May Hide a Verdict</h2><p>These words are warning lights, not proof of bad intent. Slow the conversation down and return to exact behavior.</p></div><div class="grid"><article class="card"><h3>Always / Never</h3><p>May turn one event into a total character judgment.</p><p><strong>Ask:</strong> What specific examples are we discussing?</p></article><article class="card"><h3>Obviously</h3><p>May treat an interpretation as if no other explanation is possible.</p><p><strong>Ask:</strong> What did you observe, and what meaning did you assign to it?</p></article><article class="card"><h3>Admit</h3><p>May turn accountability into a demand for confession.</p><p><strong>Ask:</strong> What specific behavior are you asking me to own, and what interpretation are you asking me to agree with?</p></article></div></section>

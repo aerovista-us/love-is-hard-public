@@ -22,7 +22,10 @@ button, textarea { font: inherit; }
 .brand-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .brand { font-weight: 900; text-decoration: none; }
 .progress-label { color: var(--muted); font-size: .88rem; font-weight: 760; }
-.nav-links { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; }
+.nav-links { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 2px; }
+.nav-group { display: flex; align-items: center; gap: 6px; padding-right: 12px; border-right: 1px solid var(--line); }
+.nav-group:last-child { border-right: 0; }
+.nav-group span { color: var(--muted); font-size: .72rem; font-weight: 900; text-transform: uppercase; white-space: nowrap; }
 .nav-links a { white-space: nowrap; padding: 8px 10px; border-radius: 8px; text-decoration: none; color: var(--ink); font-size: .88rem; font-weight: 800; }
 .nav-links a:hover, .nav-links a.active { background: var(--paper-2); }
 .progress-bar { height: 7px; overflow: hidden; border-radius: 999px; background: #dfd1bd; }
@@ -120,5 +123,5 @@ textarea { width: 100%; min-height: 160px; padding: 14px; resize: vertical; bord
 .pager { justify-content: space-between; padding-top: 28px; }
 .footer { padding: 26px 24px; border-top: 1px solid var(--line); color: var(--muted); background: var(--panel); font-size: .92rem; }
 .footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
-@media (max-width: 980px) { .hero { min-height: 62svh; padding: 20px; } .grid, .grid.two, .grid.four, .module, .player-card, .concept-grid, .workbook-grid { grid-template-columns: 1fr; } }
+@media (max-width: 980px) { .hero { min-height: 62svh; padding: 20px; } .grid, .grid.two, .grid.four, .module, .player-card, .concept-grid, .workbook-grid, .comparison { grid-template-columns: 1fr; } .nav-links { gap: 10px; } .nav-group { align-items: flex-start; flex-direction: column; gap: 5px; min-width: max-content; } }
 @media print { .site-header, .cta-row, .filters, .tools, .pager, .player-controls, .sticky-tools { display: none; } .hero { min-height: auto; color: var(--ink); background: var(--paper); } .lede { color: var(--muted); } .card, .song, .module, .worksheet, .diagram, .quote, .player-card, .now-playing, .playlist, .concept-card { box-shadow: none; } }

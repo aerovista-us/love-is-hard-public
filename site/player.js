@@ -1,5 +1,66 @@
 const filterButtons = Array.from(document.querySelectorAll('.filter'));
 const songs = Array.from(document.querySelectorAll('.song'));
+const analyticsKey = 'love_is_hard_public_analytics_v1';
+const feedbackKey = 'love_is_hard_public_feedback_v1';
+const pageName = window.location.pathname.split('/').pop() || 'index.html';
+const sessionOrder = [
+  'lesson-01.html',
+  'lesson-02.html',
+  'lesson-03.html',
+  'lesson-04.html',
+  'lesson-05.html',
+  'lesson-06.html',
+  'lesson-07.html',
+  'lesson-08.html',
+];
+const sessionNames = [
+  'Name the Pieces',
+  'Hear Clearly',
+  'Hidden Premise',
+  'Proof Pressure',
+  'Escalation Map',
+  'Boundaries',
+  'Operations',
+  'Agreement',
+];
+
+const loadJson = (key, fallback) => {
+  try {
+    return JSON.parse(localStorage.getItem(key)) || fallback;
+  } catch {
+    return fallback;
+  }
+};
+
+const saveJson = (key, value) => {
+  localStorage.setItem(key, JSON.stringify(value));
+};
+
+const trackEvent = (name, detail = {}) => {
+  const data = loadJson(analyticsKey, { events: [], counts: {} });
+  const event = {
+    name,
+    page: pageName,
+    detail,
+    at: new Date().toISOString(),
+  };
+  data.events.push(event);
+  data.counts[name] = (data.counts[name] || 0) + 1;
+  saveJson(analyticsKey, data);
+};
+
+if (pageName === 'index.html') trackEvent('homepage_visit');
+if (pageName === 'worksheet.html') trackEvent('workbook_opened');
+if (pageName === 'tools.html') trackEvent('tool_opened');
+if (pageName === 'facilitator.html') trackEvent('facilitator_opened');
+if (pageName === 'guardrails.html') trackEvent('guardrails_opened');
+
+document.querySelectorAll('[data-analytics-event]').forEach((item) => {
+  item.addEventListener('click', () => {
+    trackEvent(item.dataset.analyticsEvent, { href: item.getAttribute('href') || '', label: item.textContent.trim() });
+  });
+});
+
 filterButtons.forEach((button) => {
   button.addEventListener('click', () => {
     const filter = button.dataset.filter;
@@ -25,6 +86,7 @@ const durationTime = document.getElementById('durationTime');
 if (mainPlayer && playlistButtons.length) {
   let currentIndex = 0;
   let isScrubbing = false;
+  const startedTracks = new Set();
   const requestedTrack = new URLSearchParams(window.location.search).get('track');
 
   const formatTime = (seconds) => {
@@ -136,6 +198,8 @@ if (mainPlayer && playlistButtons.length) {
   }
 
   mainPlayer.addEventListener('ended', () => {
+    const current = playlistButtons[currentIndex];
+    trackEvent('audio_completed', { track: current?.dataset.title || '' });
     if (currentIndex < playlistButtons.length - 1) {
       setTrack(currentIndex + 1, true);
       return;
@@ -146,7 +210,15 @@ if (mainPlayer && playlistButtons.length) {
   });
   mainPlayer.addEventListener('loadedmetadata', updateProgress);
   mainPlayer.addEventListener('timeupdate', updateProgress);
-  mainPlayer.addEventListener('play', updatePlayButton);
+  mainPlayer.addEventListener('play', () => {
+    updatePlayButton();
+    const current = playlistButtons[currentIndex];
+    const key = current?.dataset.track || String(currentIndex);
+    if (!startedTracks.has(key)) {
+      startedTracks.add(key);
+      trackEvent('audio_started', { track: current?.dataset.title || '' });
+    }
+  });
   mainPlayer.addEventListener('pause', updatePlayButton);
 
   const requestedIndex = requestedTrack ? playlistButtons.findIndex((button) => button.dataset.track === requestedTrack) : -1;
@@ -157,37 +229,13 @@ const progressKey = 'love_is_hard_public_progress_v1';
 const sessionCards = Array.from(document.querySelectorAll('[data-session-card]'));
 const progressSummary = document.querySelector('[data-progress-summary]');
 const completeButtons = Array.from(document.querySelectorAll('.complete-session'));
-const sessionOrder = [
-  'lesson-01.html',
-  'lesson-02.html',
-  'lesson-03.html',
-  'lesson-04.html',
-  'lesson-05.html',
-  'lesson-06.html',
-  'lesson-07.html',
-  'lesson-08.html',
-];
-const sessionNames = [
-  'Name the Pieces',
-  'Hear Clearly',
-  'Hidden Premise',
-  'Proof Pressure',
-  'Escalation Map',
-  'Boundaries',
-  'Operations',
-  'Agreement',
-];
 
 const loadProgress = () => {
-  try {
-    return JSON.parse(localStorage.getItem(progressKey)) || { completed: [], last: '' };
-  } catch {
-    return { completed: [], last: '' };
-  }
+  return loadJson(progressKey, { completed: [], last: '' });
 };
 
 const saveProgress = (progress) => {
-  localStorage.setItem(progressKey, JSON.stringify(progress));
+  saveJson(progressKey, progress);
 };
 
 const renderProgress = () => {
@@ -215,7 +263,13 @@ const renderProgress = () => {
     const continueIndex = sessionOrder.indexOf(continueFile);
     const count = completed.size;
     const percent = Math.round((count / sessionOrder.length) * 100);
-    progressSummary.innerHTML = `<h2>${count ? `Continue Session ${continueIndex + 1}: ${sessionNames[continueIndex]}` : 'Continue'}</h2><p>${count} of ${sessionOrder.length} sessions complete (${percent}%).</p><a class="inline-link" href="./${continueFile}">${count ? 'Continue learning' : 'Begin the course'}</a>`;
+    progressSummary.innerHTML = `<h2>${count ? `Continue Session ${continueIndex + 1}: ${sessionNames[continueIndex]}` : 'Continue'}</h2><p>${count} of ${sessionOrder.length} sessions complete (${percent}%).</p><a class="inline-link" href="./${continueFile}" data-analytics-event="continue_clicked">${count ? 'Continue learning' : 'Begin the course'}</a>`;
+    const continueLink = progressSummary.querySelector('[data-analytics-event]');
+    if (continueLink) {
+      continueLink.addEventListener('click', () => {
+        trackEvent('continue_clicked', { href: continueLink.getAttribute('href') || '' });
+      });
+    }
   }
 };
 
@@ -235,12 +289,94 @@ if (completeButtons.length || sessionCards.length || progressSummary) {
       progress.completed = Array.from(completed).sort((a, b) => sessionOrder.indexOf(a) - sessionOrder.indexOf(b));
       progress.last = button.dataset.session;
       saveProgress(progress);
+      trackEvent('session_completed', { session: button.dataset.session });
+      if (progress.completed.length === sessionOrder.length) trackEvent('full_course_completion');
       renderProgress();
     });
   });
 
   renderProgress();
 }
+
+const feedbackForms = Array.from(document.querySelectorAll('[data-feedback-form]'));
+if (feedbackForms.length) {
+  feedbackForms.forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const entry = {
+        session: form.dataset.session,
+        rating: formData.get('rating'),
+        note: formData.get('note') || '',
+        at: new Date().toISOString(),
+      };
+      const data = loadJson(feedbackKey, []);
+      data.push(entry);
+      saveJson(feedbackKey, data);
+      trackEvent('feedback_submitted', { session: entry.session, rating: entry.rating });
+      const status = form.querySelector('[data-feedback-status]');
+      if (status) status.textContent = 'Saved locally. Export pilot data from the Public Pilot page if you want to share it.';
+      form.reset();
+    });
+  });
+}
+
+const renderPilotDashboard = () => {
+  const dashboard = document.querySelector('[data-pilot-dashboard]');
+  if (!dashboard) return;
+  const analytics = loadJson(analyticsKey, { events: [], counts: {} });
+  const progress = loadProgress();
+  const feedback = loadJson(feedbackKey, []);
+  const counts = analytics.counts || {};
+
+  document.querySelectorAll('[data-metric]').forEach((item) => {
+    const metric = item.dataset.metric;
+    item.textContent = metric === 'feedback_submitted' ? feedback.length : counts[metric] || 0;
+  });
+
+  const sessionDashboard = document.querySelector('[data-session-dashboard]');
+  if (sessionDashboard) {
+    const completed = new Set(progress.completed || []);
+    sessionDashboard.innerHTML = sessionOrder.map((file, index) => {
+      const status = completed.has(file) ? 'Complete' : 'Not complete';
+      return `<li><strong>Session ${index + 1}: ${sessionNames[index]}</strong><span>${status}</span></li>`;
+    }).join('');
+  }
+};
+
+const exportPilotData = document.getElementById('exportPilotData');
+const clearPilotData = document.getElementById('clearPilotData');
+const pilotStatus = document.getElementById('pilotStatus');
+if (exportPilotData) {
+  exportPilotData.addEventListener('click', () => {
+    const payload = {
+      release: 'Love Is Hard — Summit Learning Public Pilot v1.0',
+      exportedAt: new Date().toISOString(),
+      analytics: loadJson(analyticsKey, { events: [], counts: {} }),
+      feedback: loadJson(feedbackKey, []),
+      progress: loadProgress(),
+      workbook: loadJson('love_is_hard_public_workbook_v1', {}),
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'love-is-hard-public-pilot.json';
+    link.click();
+    URL.revokeObjectURL(link.href);
+    if (pilotStatus) pilotStatus.textContent = 'Exported pilot JSON.';
+  });
+}
+if (clearPilotData) {
+  clearPilotData.addEventListener('click', () => {
+    localStorage.removeItem(analyticsKey);
+    localStorage.removeItem(feedbackKey);
+    localStorage.removeItem(progressKey);
+    renderPilotDashboard();
+    renderProgress();
+    if (pilotStatus) pilotStatus.textContent = 'Cleared local pilot analytics, feedback, and progress.';
+  });
+}
+renderPilotDashboard();
 
 const status = document.getElementById('noteStatus');
 const workbookFields = Array.from(document.querySelectorAll('[data-workbook-field]'));

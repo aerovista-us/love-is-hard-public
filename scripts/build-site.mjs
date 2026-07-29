@@ -2,6 +2,7 @@ import { writeFileSync } from 'node:fs';
 
 const siteUrl = 'https://aerovista-us.github.io/love-is-hard-public/';
 const description = 'An eight-session Summit Learning program for communication and pattern literacy.';
+const socialImageAlt = 'Love Is Hard Summit Learning release card with a heart and signal line.';
 const assetVersion = '2026-07-29-public-pilot';
 const releaseVersion = 'Public Pilot v1.0';
 const publicationDate = 'July 29, 2026';
@@ -301,10 +302,12 @@ function head(title, file) {
   <meta property="og:image" content="${siteUrl}assets/og-image.png" />
   <meta property="og:image:width" content="1731" />
   <meta property="og:image:height" content="909" />
+  <meta property="og:image:alt" content="${socialImageAlt}" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${socialTitle(title)}" />
   <meta name="twitter:description" content="${description}" />
   <meta name="twitter:image" content="${siteUrl}assets/og-image.png" />
+  <meta name="twitter:image:alt" content="${socialImageAlt}" />
   <link rel="stylesheet" href="./styles.css?v=${assetVersion}" />
 </head>`;
 }

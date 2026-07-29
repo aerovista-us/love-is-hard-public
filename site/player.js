@@ -25,6 +25,7 @@ const durationTime = document.getElementById('durationTime');
 if (mainPlayer && playlistButtons.length) {
   let currentIndex = 0;
   let isScrubbing = false;
+  const requestedTrack = new URLSearchParams(window.location.search).get('track');
 
   const formatTime = (seconds) => {
     if (!Number.isFinite(seconds)) return '0:00';
@@ -148,7 +149,97 @@ if (mainPlayer && playlistButtons.length) {
   mainPlayer.addEventListener('play', updatePlayButton);
   mainPlayer.addEventListener('pause', updatePlayButton);
 
-  setTrack(0);
+  const requestedIndex = requestedTrack ? playlistButtons.findIndex((button) => button.dataset.track === requestedTrack) : -1;
+  setTrack(requestedIndex >= 0 ? requestedIndex : 0);
+}
+
+const progressKey = 'love_is_hard_public_progress_v1';
+const sessionCards = Array.from(document.querySelectorAll('[data-session-card]'));
+const progressSummary = document.querySelector('[data-progress-summary]');
+const completeButtons = Array.from(document.querySelectorAll('.complete-session'));
+const sessionOrder = [
+  'lesson-01.html',
+  'lesson-02.html',
+  'lesson-03.html',
+  'lesson-04.html',
+  'lesson-05.html',
+  'lesson-06.html',
+  'lesson-07.html',
+  'lesson-08.html',
+];
+const sessionNames = [
+  'Name the Pieces',
+  'Hear Clearly',
+  'Hidden Premise',
+  'Proof Pressure',
+  'Escalation Map',
+  'Boundaries',
+  'Operations',
+  'Agreement',
+];
+
+const loadProgress = () => {
+  try {
+    return JSON.parse(localStorage.getItem(progressKey)) || { completed: [], last: '' };
+  } catch {
+    return { completed: [], last: '' };
+  }
+};
+
+const saveProgress = (progress) => {
+  localStorage.setItem(progressKey, JSON.stringify(progress));
+};
+
+const renderProgress = () => {
+  const progress = loadProgress();
+  const completed = new Set(progress.completed || []);
+
+  sessionCards.forEach((card) => {
+    const done = completed.has(card.dataset.sessionCard);
+    card.classList.toggle('is-complete', done);
+    card.setAttribute('data-status', done ? 'Complete' : 'Not complete');
+  });
+
+  completeButtons.forEach((button) => {
+    const done = completed.has(button.dataset.session);
+    button.classList.toggle('is-complete', done);
+    button.textContent = done ? 'Session Complete' : 'Complete Session';
+    button.setAttribute('aria-pressed', done ? 'true' : 'false');
+  });
+
+  if (progressSummary) {
+    const nextSession = sessionOrder.find((file) => !completed.has(file)) || sessionOrder.at(-1);
+    const nextIndex = sessionOrder.indexOf(nextSession);
+    const lastIndex = progress.last ? sessionOrder.indexOf(progress.last) : -1;
+    const continueFile = lastIndex >= 0 && !completed.has(progress.last) ? progress.last : nextSession;
+    const continueIndex = sessionOrder.indexOf(continueFile);
+    const count = completed.size;
+    const percent = Math.round((count / sessionOrder.length) * 100);
+    progressSummary.innerHTML = `<h2>${count ? `Continue Session ${continueIndex + 1}: ${sessionNames[continueIndex]}` : 'Continue'}</h2><p>${count} of ${sessionOrder.length} sessions complete (${percent}%).</p><a class="inline-link" href="./${continueFile}">${count ? 'Continue learning' : 'Begin the course'}</a>`;
+  }
+};
+
+if (completeButtons.length || sessionCards.length || progressSummary) {
+  const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+  if (sessionOrder.includes(currentFile)) {
+    const progress = loadProgress();
+    progress.last = currentFile;
+    saveProgress(progress);
+  }
+
+  completeButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const progress = loadProgress();
+      const completed = new Set(progress.completed || []);
+      completed.add(button.dataset.session);
+      progress.completed = Array.from(completed).sort((a, b) => sessionOrder.indexOf(a) - sessionOrder.indexOf(b));
+      progress.last = button.dataset.session;
+      saveProgress(progress);
+      renderProgress();
+    });
+  });
+
+  renderProgress();
 }
 
 const status = document.getElementById('noteStatus');

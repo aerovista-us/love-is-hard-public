@@ -281,7 +281,8 @@ function socialTitle(title) {
   return title === 'Love Is Hard' ? 'Love Is Hard: When Conversations Become Tests' : `${title} | Love Is Hard`;
 }
 
-function head(title) {
+function head(title, file) {
+  const pageUrl = new URL(file, siteUrl).href;
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -289,9 +290,11 @@ function head(title) {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>${pageTitle(title)}</title>
   <meta name="description" content="${description}" />
+  <link rel="canonical" href="${pageUrl}" />
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
   <meta name="theme-color" content="#17202b" />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="${pageUrl}" />
   <meta property="og:site_name" content="Love Is Hard" />
   <meta property="og:title" content="${socialTitle(title)}" />
   <meta property="og:description" content="${description}" />
@@ -342,7 +345,7 @@ function footer() {
 }
 
 function page(file, title, body, progressLabel = '') {
-  writeFileSync(`site/${file}`, `${head(title)}
+  writeFileSync(`site/${file}`, `${head(title, file)}
 ${header(file, progressLabel)}
 ${body}
 ${footer()}

@@ -273,6 +273,10 @@ function pageTitle(title) {
   return title === 'Love Is Hard' ? 'Love Is Hard: When Conversations Become Tests | Summit Learning' : `${title} | Love Is Hard`;
 }
 
+function socialTitle(title) {
+  return title === 'Love Is Hard' ? 'Love Is Hard: When Conversations Become Tests' : `${title} | Love Is Hard`;
+}
+
 function head(title) {
   return `<!doctype html>
 <html lang="en">
@@ -285,13 +289,13 @@ function head(title) {
   <meta name="theme-color" content="#17202b" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Love Is Hard" />
-  <meta property="og:title" content="Love Is Hard" />
+  <meta property="og:title" content="${socialTitle(title)}" />
   <meta property="og:description" content="${description}" />
   <meta property="og:image" content="${siteUrl}assets/og-image.png" />
   <meta property="og:image:width" content="1731" />
   <meta property="og:image:height" content="909" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Love Is Hard" />
+  <meta name="twitter:title" content="${socialTitle(title)}" />
   <meta name="twitter:description" content="${description}" />
   <meta name="twitter:image" content="${siteUrl}assets/og-image.png" />
   <link rel="stylesheet" href="./styles.css?v=${assetVersion}" />

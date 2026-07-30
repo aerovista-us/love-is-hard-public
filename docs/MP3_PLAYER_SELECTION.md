@@ -47,6 +47,12 @@ Use the 8-track recommended player set, all optional tracks, plus `Paint Me the 
 
 Per owner direction, the first player release includes these without additional per-track framing.
 
+## Narrative Reading (separate from playlist)
+
+| File | Placement | Notes |
+|---|---|---|
+| `PN.mp3` | `private-understanding.html` “Read it to me” player only | Cleared spoken reading of the Private Understanding Narrative. Not part of the course playlist player. Keep controls compact and page-local. |
+
 ## Player Copy Rule
 
 For every track, use a teaching label and short prompt instead of lyrics:

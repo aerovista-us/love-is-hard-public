@@ -225,6 +225,120 @@ if (mainPlayer && playlistButtons.length) {
   setTrack(requestedIndex >= 0 ? requestedIndex : 0);
 }
 
+const narrativePlayer = document.getElementById('narrativePlayer');
+const narrativeReadBtn = document.getElementById('narrativeReadBtn');
+const narrativePlayPause = document.getElementById('narrativePlayPause');
+const narrativeProgress = document.getElementById('narrativeProgress');
+const narrativeCurrentTime = document.getElementById('narrativeCurrentTime');
+const narrativeDuration = document.getElementById('narrativeDuration');
+const narrativeVolume = document.getElementById('narrativeVolume');
+
+if (narrativePlayer) {
+  let narrativeScrubbing = false;
+  let narrativeStarted = false;
+
+  const formatNarrativeTime = (seconds) => {
+    if (!Number.isFinite(seconds)) return '0:00';
+    const minutes = Math.floor(seconds / 60);
+    const remaining = Math.floor(seconds % 60).toString().padStart(2, '0');
+    return `${minutes}:${remaining}`;
+  };
+
+  const updateNarrativePlayButton = () => {
+    const paused = narrativePlayer.paused;
+    if (narrativePlayPause) {
+      narrativePlayPause.textContent = paused ? 'Play' : 'Pause';
+      narrativePlayPause.setAttribute('aria-label', paused ? 'Play narrative' : 'Pause narrative');
+      narrativePlayPause.classList.toggle('is-playing', !paused);
+    }
+    if (narrativeReadBtn) {
+      narrativeReadBtn.textContent = paused ? 'Read it to me' : 'Pause reading';
+      narrativeReadBtn.setAttribute('aria-pressed', paused ? 'false' : 'true');
+    }
+  };
+
+  const updateNarrativeProgress = () => {
+    const duration = narrativePlayer.duration || 0;
+    const time = narrativePlayer.currentTime || 0;
+    if (narrativeProgress && !narrativeScrubbing) {
+      narrativeProgress.value = duration ? Math.round((time / duration) * Number(narrativeProgress.max)) : 0;
+    }
+    if (narrativeCurrentTime) narrativeCurrentTime.textContent = formatNarrativeTime(time);
+    if (narrativeDuration) narrativeDuration.textContent = formatNarrativeTime(duration);
+  };
+
+  const playNarrative = () => {
+    const playRequest = narrativePlayer.play();
+    if (playRequest) {
+      playRequest.catch(() => {
+        updateNarrativePlayButton();
+      });
+    }
+  };
+
+  const toggleNarrative = () => {
+    if (narrativePlayer.paused) {
+      playNarrative();
+      return;
+    }
+    narrativePlayer.pause();
+  };
+
+  if (narrativeReadBtn) {
+    narrativeReadBtn.addEventListener('click', () => {
+      toggleNarrative();
+    });
+  }
+
+  if (narrativePlayPause) {
+    narrativePlayPause.addEventListener('click', () => {
+      toggleNarrative();
+    });
+  }
+
+  if (narrativeProgress) {
+    narrativeProgress.addEventListener('input', () => {
+      narrativeScrubbing = true;
+      const duration = narrativePlayer.duration || 0;
+      const nextTime = duration * (Number(narrativeProgress.value) / Number(narrativeProgress.max));
+      if (narrativeCurrentTime) narrativeCurrentTime.textContent = formatNarrativeTime(nextTime);
+    });
+
+    narrativeProgress.addEventListener('change', () => {
+      const duration = narrativePlayer.duration || 0;
+      narrativePlayer.currentTime = duration * (Number(narrativeProgress.value) / Number(narrativeProgress.max));
+      narrativeScrubbing = false;
+      updateNarrativeProgress();
+    });
+  }
+
+  if (narrativeVolume) {
+    narrativePlayer.volume = Number(narrativeVolume.value) / 100;
+    narrativeVolume.addEventListener('input', () => {
+      narrativePlayer.volume = Number(narrativeVolume.value) / 100;
+    });
+  }
+
+  narrativePlayer.addEventListener('loadedmetadata', updateNarrativeProgress);
+  narrativePlayer.addEventListener('timeupdate', updateNarrativeProgress);
+  narrativePlayer.addEventListener('play', () => {
+    updateNarrativePlayButton();
+    if (!narrativeStarted) {
+      narrativeStarted = true;
+      trackEvent('narrative_audio_started', { track: 'Private Understanding Narrative' });
+    }
+  });
+  narrativePlayer.addEventListener('pause', updateNarrativePlayButton);
+  narrativePlayer.addEventListener('ended', () => {
+    trackEvent('narrative_audio_completed', { track: 'Private Understanding Narrative' });
+    updateNarrativePlayButton();
+    updateNarrativeProgress();
+  });
+
+  updateNarrativePlayButton();
+  updateNarrativeProgress();
+}
+
 const progressKey = 'love_is_hard_public_progress_v1';
 const sessionCards = Array.from(document.querySelectorAll('[data-session-card]'));
 const progressSummary = document.querySelector('[data-progress-summary]');

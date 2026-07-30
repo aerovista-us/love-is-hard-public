@@ -10,7 +10,7 @@ The teaching frame may state that private source material was reviewed and conso
 - A public-safe SVG diagram about focus interruption and repair structure.
 - Song titles, broad teaching themes, and the cleared public MP3 player set.
 - GitHub Pages deployment workflow.
-- An anonymized first-person Private Understanding Narrative at `private-understanding.html`, linked only from a small link under **How the Pattern Was Found** on Public Guardrails and kept out of primary navigation. It must not name people, include dates/emails/phones, function as an evidence dump, or read as a verdict about a specific person. Raw messages, ledgers, recordings, and other excluded materials remain excluded.
+- An anonymized first-person Private Understanding Narrative at `private-understanding.html`, linked only from a small link under **How the Pattern Was Found** on Public Guardrails and kept out of primary navigation. It must not name people, include dates/emails/phones, function as an evidence dump, or read as a verdict about a specific person. Raw messages, ledgers, recordings, and other excluded materials remain excluded. The page includes a discreet “Read it to me” audio control that plays the cleared narrative reading `site/audio/PN.mp3` (separate from the public playlist player).
 
 ## Excluded
 

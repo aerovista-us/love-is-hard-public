@@ -227,7 +227,6 @@ if (mainPlayer && playlistButtons.length) {
 
 const narrativePlayer = document.getElementById('narrativePlayer');
 const narrativeReadBtn = document.getElementById('narrativeReadBtn');
-const narrativePlayPause = document.getElementById('narrativePlayPause');
 const narrativeProgress = document.getElementById('narrativeProgress');
 const narrativeCurrentTime = document.getElementById('narrativeCurrentTime');
 const narrativeDuration = document.getElementById('narrativeDuration');
@@ -246,14 +245,11 @@ if (narrativePlayer) {
 
   const updateNarrativePlayButton = () => {
     const paused = narrativePlayer.paused;
-    if (narrativePlayPause) {
-      narrativePlayPause.textContent = paused ? 'Play' : 'Pause';
-      narrativePlayPause.setAttribute('aria-label', paused ? 'Play narrative' : 'Pause narrative');
-      narrativePlayPause.classList.toggle('is-playing', !paused);
-    }
     if (narrativeReadBtn) {
-      narrativeReadBtn.textContent = paused ? 'Read it to me' : 'Pause reading';
+      narrativeReadBtn.textContent = paused ? 'Read it to me' : 'Pause';
       narrativeReadBtn.setAttribute('aria-pressed', paused ? 'false' : 'true');
+      narrativeReadBtn.setAttribute('aria-label', paused ? 'Read it to me' : 'Pause reading');
+      narrativeReadBtn.classList.toggle('is-playing', !paused);
     }
   };
 
@@ -286,12 +282,6 @@ if (narrativePlayer) {
 
   if (narrativeReadBtn) {
     narrativeReadBtn.addEventListener('click', () => {
-      toggleNarrative();
-    });
-  }
-
-  if (narrativePlayPause) {
-    narrativePlayPause.addEventListener('click', () => {
       toggleNarrative();
     });
   }

@@ -13,3 +13,6 @@ npm-debug.log*
 # Generated
 dist/
 node_modules/
+
+# Private source Word docs
+docs/*.docx

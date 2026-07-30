@@ -76,6 +76,18 @@ section { padding: clamp(36px, 6vw, 76px) 24px; }
 .card.accent p, .card.accent li { color: rgba(255,248,237,.78); }
 .inline-link { display: inline-flex; width: fit-content; margin-top: 12px; color: var(--teal); text-decoration: none; font-weight: 900; }
 .inline-link:hover { text-decoration: underline; }
+.small-link { display: inline-block; margin-top: 14px; color: var(--teal); font-size: .86rem; font-weight: 750; text-decoration: none; }
+.small-link:hover { text-decoration: underline; }
+.wrap.narrow { width: min(760px, 100%); }
+.document-view .section-head { max-width: none; }
+.rich-text { padding: clamp(22px, 4vw, 40px); border: 1px solid var(--line); border-radius: 8px; background: var(--panel); box-shadow: var(--shadow); }
+.rich-text .document-kicker { margin: 0 0 22px; color: var(--ink); font-size: 1.12rem; font-weight: 760; line-height: 1.35; }
+.rich-text h2 { margin: 28px 0 12px; max-width: none; font-size: clamp(1.28rem, 2.4vw, 1.7rem); line-height: 1.2; letter-spacing: 0; }
+.rich-text h2:first-of-type { margin-top: 8px; }
+.rich-text p { margin: 0 0 12px; color: var(--ink); }
+.rich-text ul, .rich-text ol { margin: 0 0 14px; padding-left: 1.25rem; color: var(--ink); }
+.rich-text li { margin: 4px 0; color: var(--ink); }
+.rich-text strong { color: var(--ink); font-weight: 850; }
 .tag { display: inline-flex; margin-bottom: 14px; padding: 6px 9px; border-radius: 8px; color: var(--ink); background: #eadcc8; font-size: .82rem; font-weight: 850; }
 .tag.teal { color: #fff; background: var(--teal); } .tag.blue { color: #fff; background: var(--blue); } .tag.rose { color: #fff; background: var(--rose); } .tag.copper { color: #fff; background: var(--copper); }
 .outcome-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 16px; padding: 0; list-style: none; }

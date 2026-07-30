@@ -7,6 +7,8 @@ Last updated: July 29, 2026
 
 This release is the first public pilot of the Summit Learning course experience. It includes the eight-session path, workbook, immediate tools, audio companion, facilitator plans, public guardrails, local progress, local feedback checkpoints, and a local-only pilot dashboard.
 
+Public Guardrails includes a small link to `private-understanding.html`, an anonymized Private Understanding Narrative kept out of primary navigation. See `docs/PUBLIC_SAFETY.md`.
+
 ## Privacy
 
 The static site does not send analytics to a backend. Workbook notes, session completion, checkpoint feedback, and pilot event counts are stored in the visitor's browser through local storage. A visitor may export that data as JSON from the Public Pilot page.

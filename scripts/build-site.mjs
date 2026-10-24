@@ -348,8 +348,9 @@ function footer() {
 }
 
 function page(file, title, body, progressLabel = '') {
+  const labAssets = /^lesson-0[1-8]\.html$/.test(file) ? '<link rel="stylesheet" href="./learning-labs.css?v=1"><script defer src="./learning-labs.js?v=1"></script>' : '';
   const lessonAssets = /^lesson-0[1-8]\.html$/.test(file) ? '<link rel="stylesheet" href="./interactive-learning.css?v=1"><script defer src="./interactive-learning.js?v=1"></script>' : '';
-  writeFileSync(`site/${file}`, `${head(title, file).replace('</head>', lessonAssets + '</head>')}
+  writeFileSync(`site/${file}`, `${head(title, file).replace('</head>', lessonAssets + labAssets + '</head>')}
 ${header(file, progressLabel)}
 ${body}
 ${footer()}

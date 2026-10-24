@@ -1,0 +1,43 @@
+name: Learning module checks
+on:
+  pull_request:
+    paths:
+      - "scripts/build-site.mjs"
+      - "site/lesson-*.html"
+      - "site/interactive-learning.*"
+      - "site/anticipatory-interpretation.html"
+      - "site/index.html"
+      - ".github/workflows/learning-checks.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  learning-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Parse scripts
+        run: |
+          node --check scripts/build-site.mjs
+          node --check site/interactive-learning.js
+      - name: Regenerate site
+        run: node scripts/build-site.mjs
+      - name: Verify learning modules
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFileSync, existsSync } from 'node:fs';
+          import assert from 'node:assert/strict';
+          for(let i=1;i<=8;i++){
+            const name='site/lesson-'+String(i).padStart(2,'0')+'.html';
+            const html=readFileSync(name,'utf8');
+            assert.match(html,/id="guided-deep-dive"/,name+' guided section');
+            assert.match(html,/interactive-learning\.js/,name+' script reference');
+            assert.match(html,/interactive-learning\.css/,name+' CSS reference');
+          }
+          assert.ok(existsSync('site/anticipatory-interpretation.html'));
+          assert.match(readFileSync('site/index.html','utf8'),/anticipatory-interpretation\.html/);
+          console.log('Eight guided lessons, interactive assets, and companion route verified.');
+          NODE

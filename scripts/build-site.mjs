@@ -348,7 +348,7 @@ function footer() {
 }
 
 function page(file, title, body, progressLabel = '') {
-  const lessonAssets = /^lesson-0[1-8]\\.html$/.test(file) ? '<link rel="stylesheet" href="./interactive-learning.css?v=1"><script defer src="./interactive-learning.js?v=1"></script>' : '';
+  const lessonAssets = /^lesson-0[1-8]\.html$/.test(file) ? '<link rel="stylesheet" href="./interactive-learning.css?v=1"><script defer src="./interactive-learning.js?v=1"></script>' : '';
   writeFileSync(`site/${file}`, `${head(title, file).replace('</head>', lessonAssets + '</head>')}
 ${header(file, progressLabel)}
 ${body}

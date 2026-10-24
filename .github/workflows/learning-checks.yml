@@ -5,6 +5,7 @@ on:
       - "scripts/build-site.mjs"
       - "site/lesson-*.html"
       - "site/interactive-learning.*"
+      - "site/learning-labs.*"
       - "site/anticipatory-interpretation.html"
       - "site/index.html"
       - ".github/workflows/learning-checks.yml"
@@ -23,6 +24,7 @@ jobs:
         run: |
           node --check scripts/build-site.mjs
           node --check site/interactive-learning.js
+          node --check site/learning-labs.js
       - name: Regenerate site
         run: node scripts/build-site.mjs
       - name: Verify learning modules

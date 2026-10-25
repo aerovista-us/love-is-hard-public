@@ -8,6 +8,7 @@ on:
       - "site/learning-labs.*"
       - "site/anticipatory-interpretation.html"
       - "site/perception-test.html"
+      - "site/understanding-session.html"
       - "site/index.html"
       - ".github/workflows/learning-checks.yml"
   workflow_dispatch:
@@ -41,6 +42,10 @@ jobs:
             assert.match(html,/interactive-learning\.css/,name+' CSS reference');
           }
           assert.ok(existsSync('site/anticipatory-interpretation.html'));
+          const session=readFileSync('site/understanding-session.html','utf8');
+          assert.match(session,/The 20-Minute Understanding Session/);
+          assert.match(session,/function persist/);
+          assert.match(readFileSync('site/index.html','utf8'),/understanding-session\\.html/);
           const perception=readFileSync('site/perception-test.html','utf8');
           assert.match(perception,/How Perceptive Are You/);
           assert.match(perception,/Additional clue|New information/);

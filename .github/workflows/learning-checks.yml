@@ -7,6 +7,7 @@ on:
       - "site/interactive-learning.*"
       - "site/learning-labs.*"
       - "site/anticipatory-interpretation.html"
+      - "site/perception-test.html"
       - "site/index.html"
       - ".github/workflows/learning-checks.yml"
   workflow_dispatch:
@@ -40,6 +41,10 @@ jobs:
             assert.match(html,/interactive-learning\.css/,name+' CSS reference');
           }
           assert.ok(existsSync('site/anticipatory-interpretation.html'));
+          const perception=readFileSync('site/perception-test.html','utf8');
+          assert.match(perception,/How Perceptive Are You/);
+          assert.match(perception,/Additional clue|New information/);
+          assert.match(perception,/Confirmation bias occurs/);
           assert.match(readFileSync('site/index.html','utf8'),/anticipatory-interpretation\.html/);
           console.log('Eight guided lessons, interactive assets, and companion route verified.');
           NODE

@@ -18,7 +18,7 @@ const sections=['welcome','session','paused','finished'];
 function show(id){sections.forEach(x=>$(x).classList.toggle('us-hidden',x!==id))}
 function stamp(ms){const n=Math.max(0,Math.ceil(ms/1000));return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0')}
 function freeze(){if(running){const elapsed=Date.now()-startedAt;remaining=Math.max(0,remaining-elapsed);totalMs+=elapsed;running=false}}
-function persist(){try{localStorage.setItem(key,JSON.stringify({index,notes,begun,ended,remaining,totalMs})) $('saved-status').textContent='Saved on this device'}catch(e){$('saved-status').textContent='Storage unavailable; export notes before leaving'}}
+function persist(){try{localStorage.setItem(key,JSON.stringify({index,notes,begun,ended,remaining,totalMs}));$('saved-status').textContent='Saved on this device'}catch(e){$('saved-status').textContent='Storage unavailable; export notes before leaving'}}
 function timerDisplay(){const delta=running?Date.now()-startedAt:0;$('step-timer').textContent=stamp(remaining-delta);$('total-timer').textContent=stamp(totalMs+delta);$('timer-toggle').textContent=running?'Pause timer':'Start timer';if(running&&delta>=remaining){freeze();persist();$('timer-toggle').textContent='Start timer'}}
 function stopTimer(){freeze();timerDisplay();persist()}
 function inputLabel(container,label){const l=document.createElement('label');l.className='us-field';l.textContent=label;const t=document.createElement('textarea');t.placeholder='Optional private notes';t.value=notes[index+'|'+label]||'';t.addEventListener('input',()=>{notes[index+'|'+label]=t.value;persist()});l.append(t);container.append(l)}

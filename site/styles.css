@@ -175,6 +175,12 @@ textarea { width: 100%; min-height: 160px; padding: 14px; resize: vertical; bord
 .workbook-module label { display: grid; gap: 6px; color: var(--ink); font-weight: 850; }
 .workbook-module label span { font-size: .92rem; }
 .workbook-module textarea { min-height: 86px; }
+/* Five-Part Separator: longer responses need a full-width writing surface. */
+.workbook-grid > #separator { grid-column: 1 / -1; }
+#separator label { min-width: 0; }
+#separator textarea { display: block; box-sizing: border-box; width: 100%; min-height: 180px; padding: 14px; line-height: 1.55; resize: vertical; }
+@media (max-width: 680px) { #separator textarea { min-height: 160px; } }
+
 .sticky-tools { position: sticky; bottom: 0; z-index: 5; margin-top: 16px; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: rgba(255,253,248,.96); backdrop-filter: blur(10px); }
 .glossary-list { padding: 34px 0 0; }
 .facilitator-plans { padding: 34px 0 0; }

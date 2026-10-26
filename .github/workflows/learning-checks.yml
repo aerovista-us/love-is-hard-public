@@ -11,6 +11,7 @@ on:
       - "site/understanding-session.html"
       - "site/communication-guide.html"
       - "site/index.html"
+      - "site/fairness-explained.html"
       - ".github/workflows/learning-checks.yml"
   workflow_dispatch:
 permissions:
@@ -43,6 +44,11 @@ jobs:
             assert.match(html,/interactive-learning\.css/,name+' CSS reference');
           }
           assert.ok(existsSync('site/anticipatory-interpretation.html'));
+          const fairness=readFileSync('site/fairness-explained.html','utf8');
+          assert.match(fairness,/How We Work to Keep Love Is Hard Fair/);
+          assert.match(fairness,/What actually happened/);
+          assert.match(fairness,/Where we can still improve/);
+          assert.match(readFileSync('site/index.html','utf8'),/fairness-explained[.]html/);
           const guide=readFileSync('site/communication-guide.html','utf8');
           assert.match(guide,/Understand the Conflict/);
           assert.match(guide,/Consent and safety are not negotiable/);

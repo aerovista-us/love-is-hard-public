@@ -1,0 +1,20 @@
+import { readFileSync, writeFileSync } from 'node:fs';
+
+const routes = JSON.parse(readFileSync('routes.json', 'utf8'));
+const escape = (text) => text.replace(/[&<>"']/g, (c) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[c]);
+for (const { file, title } of routes) {
+  if (!/^[a-z0-9-]+\.html$/.test(file)) throw new Error('Unsafe gate route');
+  const path = `/content/AV-APP-LOVE-IS-HARD/${file}`;
+  const target = 'https://mag-auth.aerovista.us' + path;
+  const login = 'https://mag-auth.aerovista.us/login?return_to=' + encodeURIComponent(target);
+  const register = 'https://mag-auth.aerovista.us/register?return_to=' + encodeURIComponent(target);
+  writeFileSync('site/' + file, `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,follow"><meta name="description" content="Sign in with your AeroVista account to open Love Is Hard Discovery by Summit Learning."><title>${escape(title)} — Account Access</title><link rel="icon" href="./assets/favicon.svg"><link rel="stylesheet" href="./account.css"><script type="module" src="./account-gate.js"></script></head>
+<body data-protected-path="${path}"><div class="shell"><header class="brand"><img src="./assets/favicon.svg" alt=""><div>SUMMIT LEARNING<span>An AeroVista experience</span></div></header>
+<main class="layout"><section><span class="eyebrow">Love Is Hard Discovery</span><h1>A little more<br><em>understanding.</em></h1><p class="lead">A space to slow the conversation down and hear what matters. Your AeroVista account opens the experience.</p><div class="features"><span>Learn at your pace</span><span>Practice with purpose</span><span>Listen & reflect</span></div></section>
+<section class="card" aria-labelledby="access-title"><p class="route">ACCOUNT ACCESS</p><h2 id="access-title">Your next step starts here.</h2><p>Sign in to open the lessons, workbook, activities, and audio companion.</p><p class="fine">Opening: ${escape(title)}</p><div class="actions"><a class="button" id="sign-in" href="${escape(login)}">Sign in with AeroVista</a><a class="button secondary" id="create-account" href="${escape(register)}">Create an AeroVista account</a></div><p class="fine">All active account holders can enter. No paid plan is required.</p>
+<details><summary>Already have notes in this browser?</summary><p>Download a copy before moving to the account experience. After signing in, choose “Import earlier notes.” Your original notes stay here. Notes remain on this browser; signing in does not sync them.</p><button type="button" class="text-button" id="export-notes">Download my earlier notes</button><p id="transfer-status" role="status" aria-live="polite"></p></details>
+<noscript><p class="fine">You can sign in using the links above. Enable JavaScript to export earlier notes.</p></noscript></section></main>
+<footer><span>Love Is Hard · A Summit Learning experience</span><a href="https://account.aerocoreos.com">Manage your AeroVista account</a></footer></div></body></html>\n`);
+}
+console.log(`Built ${routes.length} account entry pages. Protected content is not included.`);

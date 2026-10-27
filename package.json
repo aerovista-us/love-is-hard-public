@@ -1,0 +1,10 @@
+{
+  "name": "love-is-hard-account-entry",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-gates.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "engines": { "node": ">=20" }
+}

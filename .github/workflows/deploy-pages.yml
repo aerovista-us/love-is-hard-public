@@ -30,6 +30,16 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Verify account boundary before replacing public app
+        run: |
+          npm run build
+          npm test
+          node scripts/verify-protected-backend.mjs
+
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
         with:
